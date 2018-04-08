@@ -1,7 +1,7 @@
 package goofys
 
 import (
-	. "github.com/kahing/goofys/internal"
+	. "github.com/TaichiKageyama/goofys/internal"
 
 	"context"
 	"fmt"
@@ -14,8 +14,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 
-	"github.com/jacobsa/fuse"
-	"github.com/jacobsa/fuse/fuseutil"
+	"github.com/TaichiKageyama/fuse"
+	"github.com/TaichiKageyama/fuse/fuseutil"
 	"github.com/jinzhu/copier"
 	"github.com/sirupsen/logrus"
 )

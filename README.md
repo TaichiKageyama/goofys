@@ -142,4 +142,4 @@ goofys has been tested with the following non-AWS providers:
       [Google Cloud Storage](https://cloud.google.com/storage/). Goofys
       borrowed some skeleton code from this project.
   * [S3Proxy](https://github.com/andrewgaul/s3proxy) is used for `go test`
-  * [fuse binding](https://github.com/jacobsa/fuse), also used by `gcsfuse`
+  * [fuse binding](https://github.com/TaichiKageyama/fuse), also used by `gcsfuse`

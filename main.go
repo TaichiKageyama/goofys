@@ -16,8 +16,8 @@
 package main
 
 import (
-	goofys "github.com/kahing/goofys/api"
-	. "github.com/kahing/goofys/internal"
+	goofys "github.com/TaichiKageyama/goofys/api"
+	. "github.com/TaichiKageyama/goofys/internal"
 
 	"fmt"
 	"os"
@@ -29,7 +29,7 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/jacobsa/fuse"
+	"github.com/TaichiKageyama/fuse"
 	"github.com/jinzhu/copier"
 	"github.com/kardianos/osext"
 	"github.com/urfave/cli"

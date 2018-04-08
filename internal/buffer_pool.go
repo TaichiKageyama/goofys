@@ -20,7 +20,7 @@ import (
 	"runtime/debug"
 	"sync"
 
-	"github.com/jacobsa/fuse"
+	"github.com/TaichiKageyama/fuse"
 	"github.com/shirou/gopsutil/mem"
 )
 

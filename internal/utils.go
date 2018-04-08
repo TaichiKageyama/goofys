@@ -19,7 +19,7 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/jacobsa/fuse"
+	"github.com/TaichiKageyama/fuse"
 )
 
 func MaxInt(a, b int) int {
