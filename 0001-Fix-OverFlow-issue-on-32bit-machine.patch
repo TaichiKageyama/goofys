@@ -1,0 +1,25 @@
+From 94483d2a2c4a4acc6497054177e5f4ebb70f1f95 Mon Sep 17 00:00:00 2001
+From: Taichi Kageyama <32001477+taichikageyama@users.noreply.github.com>
+Date: Mon, 2 Dec 2019 05:27:21 +0900
+Subject: [patch] Fix OverFlow issue on 32bit machine
+
+---
+ internal/backend_s3.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git goofys.org/internal/backend_s3.go goofys.fix/internal/backend_s3.go
+index 99f6cce..98f6a83 100644
+--- goofys.org/internal/backend_s3.go
++++ goofys.fix/internal/backend_s3.go
+@@ -504,7 +504,7 @@ func (s *S3Backend) mpuCopyPart(from string, to string, mpuId string, bytes stri
+ }
+ 
+ func sizeToParts(size int64) (int, int64) {
+-	const MAX_S3_MPU_SIZE = 5 * 1024 * 1024 * 1024 * 1024
++	const MAX_S3_MPU_SIZE int64 = 5 * 1024 * 1024 * 1024 * 1024
+ 	if size > MAX_S3_MPU_SIZE {
+ 		panic(fmt.Sprintf("object size: %v exceeds maximum S3 MPU size: %v", size, MAX_S3_MPU_SIZE))
+ 	}
+-- 
+2.11.0
+

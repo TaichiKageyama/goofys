@@ -1,0 +1,68 @@
+From a9a7f051126fd9f9b9268554e85677796db9dda0 Mon Sep 17 00:00:00 2001
+From: Taichi Kageyama <32001477+TaichiKageyama@users.noreply.github.com>
+Date: Sun, 8 Apr 2018 19:43:02 +0000
+Subject: [patch] fuse: Support arm platform
+
+- Add arm platform
+- Avoid panic in Reset() in out_message.go.
+   This function uses magic code 24 because it assumes using x86-64 or 64 bit machine.
+
+   Note.
+     amd64:
+       unsafe.Sizeof(m.payloadOffset) -> 8
+       unsafe.Sizeof(m.header) -> 16
+     arm:
+       unsafe.Sizeof(m.payloadOffset) -> 4
+       unsafe.Sizeof(m.header) -> 16
+
+Signed-off-by: Taichi Kageyama <32001477+TaichiKageyama@users.noreply.github.com>
+---
+ fuse.org/internal/buffer/out_message.go  | 18 ++----------------
+ fuse.fix/internal/buffer/runtime_go1.8.s |  2 +-
+ 2 files changed, 3 insertions(+), 17 deletions(-)
+
+diff --git fuse.org/internal/buffer/out_message.go fuse.fx/internal/buffer/out_message.go
+index 94d5407..8166b6f 100644
+--- fuse.org/internal/buffer/out_message.go
++++ fuse.fix/internal/buffer/out_message.go
+@@ -55,22 +55,8 @@ func init() {
+ // Reset resets m so that it's ready to be used again. Afterward, the contents
+ // are solely a zeroed fusekernel.OutHeader struct.
+ func (m *OutMessage) Reset() {
+-	// Ideally we'd like to write:
+-	//
+-	//     m.payloadOffset = 0
+-	//     m.header = fusekernel.OutHeader{}
+-	//
+-	// But Go 1.8 beta 2 generates bad code for this
+-	// (https://golang.org/issue/18370). Encourage it to generate the same code
+-	// as Go 1.7.4 did.
+-	if unsafe.Offsetof(m.payload) != 24 {
+-		panic("unexpected OutMessage layout")
+-	}
+-
+-	a := (*[3]uint64)(unsafe.Pointer(m))
+-	a[0] = 0
+-	a[1] = 0
+-	a[2] = 0
++	m.payloadOffset = 0
++	m.header = fusekernel.OutHeader{}
+ }
+ 
+ // OutHeader returns a pointer to the header at the start of the message.
+diff --git fuse.org/internal/buffer/runtime_go1.8.s fuse.fix/internal/buffer/runtime_go1.8.s
+index 201a511..d089162 100644
+--- fuse.org/internal/buffer/runtime_go1.8.s
++++ fuse.fix/internal/buffer/runtime_go1.8.s
+@@ -12,7 +12,7 @@
+ // See the License for the specific language governing permissions and
+ // limitations under the License.
+ 
+-// +build amd64 arm64 ppc64 ppc64le
++// +build amd64 arm arm64 ppc64 ppc64le
+ // +build go1.8
+ 
+ // Assembly code isn't subject to visibility restrictions, so we can jump
+-- 
+2.11.0
+
